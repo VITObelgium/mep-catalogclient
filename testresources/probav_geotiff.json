@@ -1,0 +1,94 @@
+[
+  {
+    "files": [
+      {
+        "bands": [
+          "PROBAV:TIME"
+        ],
+        "filename": "file:/data/MTDA/TIFFDERIVED/PROBAV_L3_S10_TOC_333M/20160101/PROBAV_S10_TOC_20160101_333M_V001/PROBAV_S10_TOC_X00Y00_20160101_333M_V001_TIME.tif"
+      },
+      {
+        "bands": [
+          "PROBAV:SM"
+        ],
+        "filename": "file:/data/MTDA/TIFFDERIVED/PROBAV_L3_S10_TOC_333M/20160101/PROBAV_S10_TOC_20160101_333M_V001/PROBAV_S10_TOC_X00Y00_20160101_333M_V001_SM.tif"
+      },
+      {
+        "bands": [
+          "PROBAV:NIR/TOC",
+          "PROBAV:SWIR/TOC",
+          "PROBAV:RED/TOC",
+          "PROBAV:BLUE/TOC"
+        ],
+        "filename": "file:/data/MTDA/TIFFDERIVED/PROBAV_L3_S10_TOC_333M/20160101/PROBAV_S10_TOC_20160101_333M_V001/PROBAV_S10_TOC_X00Y00_20160101_333M_V001_RADIOMETRY.tif"
+      },
+      {
+        "bands": [
+          "PROBAV:NDVI"
+        ],
+        "filename": "file:/data/MTDA/TIFFDERIVED/PROBAV_L3_S10_TOC_333M/20160101/PROBAV_S10_TOC_20160101_333M_V001/PROBAV_S10_TOC_X00Y00_20160101_333M_V001_NDVI.tif"
+      },
+      {
+        "bands": [
+          "PROBAV:SAA",
+          "PROBAV:VNIR/VAA",
+          "PROBAV:SZA",
+          "PROBAV:SWIR/VAA",
+          "PROBAV:SWIR/VZA",
+          "PROBAV:VNIR/VZA"
+        ],
+        "filename": "file:/data/MTDA/TIFFDERIVED/PROBAV_L3_S10_TOC_333M/20160101/PROBAV_S10_TOC_20160101_333M_V001/PROBAV_S10_TOC_X00Y00_20160101_333M_V001_GEOMETRY.tif"
+      }
+    ],
+    "productType": "PROBAV_L3_S10_TOC_333M",
+    "tileX": 0,
+    "tileY": 0,
+    "timestamp": "2016-01-01T00:00:00Z"
+  },
+  {
+    "files": [
+      {
+        "bands": [
+          "PROBAV:SM"
+        ],
+        "filename": "file:/data/MTDA/TIFFDERIVED/PROBAV_L3_S10_TOC_333M/20160101/PROBAV_S10_TOC_20160101_333M_V001/PROBAV_S10_TOC_X00Y01_20160101_333M_V001_SM.tif"
+      },
+      {
+        "bands": [
+          "PROBAV:NIR/TOC",
+          "PROBAV:SWIR/TOC",
+          "PROBAV:RED/TOC",
+          "PROBAV:BLUE/TOC"
+        ],
+        "filename": "file:/data/MTDA/TIFFDERIVED/PROBAV_L3_S10_TOC_333M/20160101/PROBAV_S10_TOC_20160101_333M_V001/PROBAV_S10_TOC_X00Y01_20160101_333M_V001_RADIOMETRY.tif"
+      },
+      {
+        "bands": [
+          "PROBAV:TIME"
+        ],
+        "filename": "file:/data/MTDA/TIFFDERIVED/PROBAV_L3_S10_TOC_333M/20160101/PROBAV_S10_TOC_20160101_333M_V001/PROBAV_S10_TOC_X00Y01_20160101_333M_V001_TIME.tif"
+      },
+      {
+        "bands": [
+          "PROBAV:NDVI"
+        ],
+        "filename": "file:/data/MTDA/TIFFDERIVED/PROBAV_L3_S10_TOC_333M/20160101/PROBAV_S10_TOC_20160101_333M_V001/PROBAV_S10_TOC_X00Y01_20160101_333M_V001_NDVI.tif"
+      },
+      {
+        "bands": [
+          "PROBAV:SAA",
+          "PROBAV:VNIR/VAA",
+          "PROBAV:SZA",
+          "PROBAV:SWIR/VAA",
+          "PROBAV:SWIR/VZA",
+          "PROBAV:VNIR/VZA"
+        ],
+        "filename": "file:/data/MTDA/TIFFDERIVED/PROBAV_L3_S10_TOC_333M/20160101/PROBAV_S10_TOC_20160101_333M_V001/PROBAV_S10_TOC_X00Y01_20160101_333M_V001_GEOMETRY.tif"
+      }
+    ],
+    "productType": "PROBAV_L3_S10_TOC_333M",
+    "tileX": 0,
+    "tileY": 1,
+    "timestamp": "2016-01-01T00:00:00Z"
+  }
+]
