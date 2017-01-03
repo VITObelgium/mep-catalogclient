@@ -7,7 +7,7 @@ import requests
 CATALOG_BASE_URL = 'http://pdfcatalog.vgt.vito.be:8080/develop/catalog/v2/'
 
 
-class EOProduct(object): # pylint: disable=too-few-public-methods
+class EOProduct(object):
     """This class represents an EO product returned from a catalog search."""
 
     def __init__(self, producttype=None, tilex=0, tiley=0, files=None):
@@ -22,7 +22,7 @@ class EOProduct(object): # pylint: disable=too-few-public-methods
         return "{0}_{1}_{2}".format(self.producttype, self.tilex, self.tiley)
 
 
-class EOProductFile(object): # pylint: disable=too-few-public-methods
+class EOProductFile(object):
     """This class represents an EO product file returned from a catalog search."""
 
     def __init__(self, filename, bands):
@@ -50,7 +50,8 @@ class Catalog(object):
             lambda a: EOProduct(a['productType'],
                                 a['tileX'],
                                 a['tileY'],
-                                map(lambda b: EOProductFile(b['filename'], b['bands']), a['files'])),
+                                map(lambda b: EOProductFile(b['filename'],
+                                                            b['bands']), a['files'])),
             json)
 
     @staticmethod
@@ -64,7 +65,8 @@ class Catalog(object):
 
     def get_products(self, producttype, fileformat='HDF5', startdate=None, enddate=None,
                      min_lon=-180, max_lon=180, min_lat=-90, max_lat=90):
-        """Returns EOProducts for specified product type, file format, region of interest and date range."""
+        """Returns EOProducts for specified product type, file format, region of interest
+        and date range."""
 
         self._check_mandatory(producttype, fileformat)
 
@@ -94,7 +96,9 @@ class Catalog(object):
             response.raise_for_status()
 
     def get_products_for_year(self, producttype, year, fileformat='HDF5',
-                     min_lon=-180, max_lon=180, min_lat=-90, max_lat=90):
+                              min_lon=-180, max_lon=180, min_lat=-90, max_lat=90):
+        """Returns EOProducts for specified product type, file format,
+        region of interest and year."""
 
         self._check_mandatory(producttype, fileformat)
 
