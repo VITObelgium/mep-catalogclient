@@ -5,6 +5,7 @@ try:
     from urllib.parse import urlparse
 except ImportError:
     import urlparse
+import datetime
 import requests
 
 CATALOG_BASE_URL = 'http://pdfcatalog.vgt.vito.be:8080/develop/catalog/v2/'
@@ -46,7 +47,7 @@ class Catalog(object):
         self.baseurl = baseurl
 
     @staticmethod
-    def _build_from_json(json):
+    def _build_products(json):
         """Builds EOProduct objects from a dict."""
 
         return map(
@@ -56,6 +57,13 @@ class Catalog(object):
                                 map(lambda b: EOProductFile(b['filename'],
                                                             b['bands']), a['files'])),
             json)
+
+    @staticmethod
+    def _build_times(json):
+        """Builds date objects from a dict."""
+
+        return map(
+            lambda a: datetime.datetime.strptime(str(a), '%Y%m%d').date(), json)
 
     @staticmethod
     def _check_mandatory(producttype, fileformat):
@@ -94,7 +102,7 @@ class Catalog(object):
 
         response = requests.get(url, params=params)
         if response.status_code == requests.codes.ok:
-            return self._build_from_json(response.json())
+            return self._build_products(response.json())
         else:
             response.raise_for_status()
 
@@ -123,6 +131,17 @@ class Catalog(object):
 
         response = requests.get(url, params=params)
         if response.status_code == requests.codes.ok:
-            return self._build_from_json(response.json())
+            return self._build_products(response.json())
+        else:
+            response.raise_for_status()
+
+    def get_times(self, producttype):
+        """Returns a list of dates at which a product is available in the catalog."""
+
+        url = urlparse.urljoin(self.baseurl, producttype + '/times')
+
+        response = requests.get(url)
+        if response.status_code == requests.codes.ok:
+            return self._build_times(response.json())
         else:
             response.raise_for_status()

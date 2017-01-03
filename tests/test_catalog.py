@@ -13,6 +13,10 @@ def probav_geotiff_response(*args, **kwargs):
         dct = json.loads(json_input.read())
         return MockedResponse(200, dct)
 
+def times_response(*args, **kwargs):
+    with open('testresources/times.json', 'r') as json_input:
+        dct = json.loads(json_input.read())
+        return MockedResponse(200, dct)
 
 def error_response(*args, **kwargs):
     return MockedResponse(500, None)
@@ -52,7 +56,7 @@ class TestCatalog(TestCase):
 
         with open('testresources/probav_geotiff.json', 'r') as json_input:
             dct = json.loads(json_input.read())
-            products = catalog.Catalog._build_from_json(dct)
+            products = catalog.Catalog._build_products(dct)
             self.assertEqual(len(products), 2)
             self.assertEqual(products[1].producttype, 'PROBAV_L3_S10_TOC_333M')
             self.assertEqual(products[1].tilex, 0)
@@ -77,12 +81,28 @@ class TestCatalog(TestCase):
                                     enddate=datetime.date(2016, 1, 2))
         self.assertGreater(len(products), 0)
 
+    @mock.patch('requests.get', side_effect=times_response)
+    def test_get_times(self, mock_get):
+        """Unit test for retrieval of times for a producttype."""
+
+        cat = catalog.Catalog()
+        times = cat.get_times('PROBAV_L3_S10_TOC_333M')
+        self.assertGreater(len(times), 0)
+
     @mock.patch('requests.get', side_effect=error_response)
     def test_get_products_error(self, mock_get):
-        """Unit test to test error handling behaviour."""
+        """Unit test to test error handling behaviour for retrieval of products."""
 
         with self.assertRaises(HTTPError):
             cat = catalog.Catalog()
             cat.get_products('PROBAV_L3_S10_TOC_333M', fileformat='GEOTIFF',
                              startdate=datetime.date(2016, 1, 1),
                              enddate=datetime.date(2016, 1, 2))
+
+    @mock.patch('requests.get', side_effect=error_response)
+    def test_get_times_error(self, mock_get):
+        """Unit test to test error handling behaviour for retrieval of times."""
+
+        with self.assertRaises(HTTPError):
+            cat = catalog.Catalog()
+            cat.get_times('PROBAV_L3_S10_TOC_333M')
