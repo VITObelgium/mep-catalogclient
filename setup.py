@@ -1,5 +1,7 @@
 from setuptools import setup
 
+test_requirements = ['requests','mock']
+
 setup(name='catalogclient',
       version='0.1',
       author='Dirk Daems',
@@ -8,5 +10,5 @@ setup(name='catalogclient',
       url='https://bitbucket.org/vitotap/catalogclient',
       packages=['catalogclient'],
       test_suite = 'tests',
-      install_requires=['requests']
-      )
+      tests_require=test_requirements,
+      install_requires=['requests']+test_requirements)

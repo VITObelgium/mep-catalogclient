@@ -3,7 +3,33 @@
 import datetime
 import json
 from unittest import TestCase
+from requests.exceptions import HTTPError
+from mock import mock
 from catalogclient import catalog
+
+
+def probav_geotiff_response(*args, **kwargs):
+    with open('testresources/probav_geotiff.json', 'r') as json_input:
+        dct = json.loads(json_input.read())
+        return MockedResponse(200, dct)
+
+
+def error_response(*args, **kwargs):
+    return MockedResponse(500, None)
+
+
+class MockedResponse(object):
+    """This class represents a mocked requests.Response object"""
+
+    def __init__(self, status_code, json_data):
+        self.json_data = json_data
+        self.status_code = status_code
+
+    def json(self):
+        return self.json_data
+
+    def raise_for_status(self):
+        raise HTTPError()
 
 
 class TestCatalog(TestCase):
@@ -41,18 +67,22 @@ class TestCatalog(TestCase):
         with self.assertRaises(ValueError):
             cat.get_products('PROBAV_L3_S10_TOC_333M', fileformat=None)
 
-    def test_get_products_by_daterange(self):
-        """Integration test for retrieval of products by date range."""
+    @mock.patch('requests.get', side_effect=probav_geotiff_response)
+    def test_get_products_by_daterange(self, mock_get):
+        """Unit test for retrieval of products by date range."""
 
         cat = catalog.Catalog()
-        products = cat.get_products('PROBAV_L3_S10_TOC_333M', fileformat='HDF5',
+        products = cat.get_products('PROBAV_L3_S10_TOC_333M', fileformat='GEOTIFF',
                                     startdate=datetime.date(2016, 1, 1),
                                     enddate=datetime.date(2016, 1, 2))
         self.assertGreater(len(products), 0)
 
-    def test_get_products_by_year(self):
-        """Integration test for retrieval of products by year."""
+    @mock.patch('requests.get', side_effect=error_response)
+    def test_get_products_error(self, mock_get):
+        """Unit test to test error handling behaviour."""
 
-        cat = catalog.Catalog()
-        products = cat.get_products_for_year('PROBAV_L3_S10_TOC_333M', 2016, fileformat='HDF5')
-        self.assertGreater(len(products), 0)
+        with self.assertRaises(HTTPError):
+            cat = catalog.Catalog()
+            cat.get_products('PROBAV_L3_S10_TOC_333M', fileformat='GEOTIFF',
+                             startdate=datetime.date(2016, 1, 1),
+                             enddate=datetime.date(2016, 1, 2))

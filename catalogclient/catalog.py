@@ -1,7 +1,10 @@
 """This module provides a Python catalog client for the internal PROBA-V MEP
  and Copernicus Global Land catalogs"""
 
-import urlparse
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    import urlparse
 import requests
 
 CATALOG_BASE_URL = 'http://pdfcatalog.vgt.vito.be:8080/develop/catalog/v2/'
