@@ -46,6 +46,7 @@ class Catalog(object):
 
         self.baseurl = baseurl
 
+
     @staticmethod
     def _build_products(json):
         """Builds EOProduct objects from a dict."""
@@ -60,26 +61,32 @@ class Catalog(object):
 
     @staticmethod
     def _build_times(json):
-        """Builds date objects from a dict."""
+        """Builds datetime objects from a dict."""
 
         return map(
-            lambda a: datetime.datetime.strptime(str(a), '%Y%m%d').date(), json)
+            lambda a: datetime.datetime.strptime(a, '%Y-%m-%dT%H:%M:%SZ'), json)
 
-    @staticmethod
-    def _check_mandatory(producttype, fileformat):
-        """Check mandatory parameters."""
 
-        if producttype is None:
-            raise ValueError("producttype is mandatory")
-        if fileformat is None:
-            raise ValueError("fileformat is mandatory")
+    def get_producttypes(self):
+        """Returns the list of available product types."""
+
+        headers = {'Accept': 'application/json'}
+        response = requests.get(self.baseurl, headers=headers)
+        if response.status_code == requests.codes.ok:
+            return response.json()
+        else:
+            response.raise_for_status()
+
 
     def get_products(self, producttype, fileformat='HDF5', startdate=None, enddate=None,
                      min_lon=-180, max_lon=180, min_lat=-90, max_lat=90):
         """Returns EOProducts for specified product type, file format, region of interest
         and date range."""
 
-        self._check_mandatory(producttype, fileformat)
+        if producttype is None:
+            raise ValueError("producttype is mandatory")
+        if fileformat is None:
+            raise ValueError("fileformat is mandatory")
 
         url = urlparse.urljoin(self.baseurl, producttype)
 
@@ -111,7 +118,10 @@ class Catalog(object):
         """Returns EOProducts for specified product type, file format,
         region of interest and year."""
 
-        self._check_mandatory(producttype, fileformat)
+        if producttype is None:
+            raise ValueError("producttype is mandatory")
+        if fileformat is None:
+            raise ValueError("fileformat is mandatory")
 
         url = urlparse.urljoin(self.baseurl, producttype)
 
@@ -137,6 +147,9 @@ class Catalog(object):
 
     def get_times(self, producttype):
         """Returns a list of dates at which a product is available in the catalog."""
+
+        if producttype is None:
+            raise ValueError("producttype is mandatory")
 
         url = urlparse.urljoin(self.baseurl, producttype + '/times')
 

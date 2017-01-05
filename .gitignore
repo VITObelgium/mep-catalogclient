@@ -1,6 +1,5 @@
-.idea/vcs.xml
-.idea/catalogclient.iml
-.idea/inspectionProfiles/
-.idea/misc.xml
-.idea/modules.xml
-.idea/workspace.xml
+/.idea/
+build/
+dist/
+catalogclient.egg-info/
+**/*.pyc

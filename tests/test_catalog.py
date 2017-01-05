@@ -13,6 +13,11 @@ def probav_geotiff_response(*args, **kwargs):
         dct = json.loads(json_input.read())
         return MockedResponse(200, dct)
 
+def producttypes_response(*args, **kwargs):
+    with open('testresources/producttypes.json', 'r') as json_input:
+        dct = json.loads(json_input.read())
+        return MockedResponse(200, dct)
+
 def times_response(*args, **kwargs):
     with open('testresources/times.json', 'r') as json_input:
         dct = json.loads(json_input.read())
@@ -71,6 +76,14 @@ class TestCatalog(TestCase):
         with self.assertRaises(ValueError):
             cat.get_products('PROBAV_L3_S10_TOC_333M', fileformat=None)
 
+    @mock.patch('requests.get', side_effect=producttypes_response)
+    def test_get_producttypes(self, mock_get):
+        """Unit test for retrieval of producttypes."""
+
+        cat = catalog.Catalog()
+        producttypes = cat.get_producttypes()
+        self.assertEquals(len(producttypes), 49)
+
     @mock.patch('requests.get', side_effect=probav_geotiff_response)
     def test_get_products_by_daterange(self, mock_get):
         """Unit test for retrieval of products by date range."""
@@ -79,7 +92,7 @@ class TestCatalog(TestCase):
         products = cat.get_products('PROBAV_L3_S10_TOC_333M', fileformat='GEOTIFF',
                                     startdate=datetime.date(2016, 1, 1),
                                     enddate=datetime.date(2016, 1, 2))
-        self.assertGreater(len(products), 0)
+        self.assertEquals(len(products), 2)
 
     @mock.patch('requests.get', side_effect=times_response)
     def test_get_times(self, mock_get):
@@ -87,7 +100,15 @@ class TestCatalog(TestCase):
 
         cat = catalog.Catalog()
         times = cat.get_times('PROBAV_L3_S10_TOC_333M')
-        self.assertGreater(len(times), 0)
+        self.assertEquals(len(times), 116)
+
+    @mock.patch('requests.get', side_effect=error_response)
+    def test_get_producttypes_error(self, mock_get):
+        """Unit test to test error handling behaviour for retrieval of producttypes."""
+
+        with self.assertRaises(HTTPError):
+            cat = catalog.Catalog()
+            cat.get_producttypes()
 
     @mock.patch('requests.get', side_effect=error_response)
     def test_get_products_error(self, mock_get):
