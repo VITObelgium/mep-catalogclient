@@ -22,6 +22,8 @@ node("master"){
     if(deployable_branches.contains(env.BRANCH_NAME)) {
 
         stage("deploy"){
+          input 'Deploy to PyPi?'
+          python setup.py sdist upload -r local
         }
 
     }
