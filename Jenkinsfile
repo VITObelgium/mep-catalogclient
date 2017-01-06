@@ -22,18 +22,20 @@ node("master"){
         step([$class: 'WarningsPublisher', consoleParsers: [[parserName: 'PyLint']]])
     }
 
-    if(deployable_branches.contains(env.BRANCH_NAME)) {
+    if(deployable_branches.contains(env.BRANCH_NAME)){
 
         stage("deploy"){
+          // ask confirmation before deployment to PyPi
           input 'Deploy to PyPi?'
-          sh '''
-            python setup.py sdist upload -r local
-          '''
+          sh("python setup.py sdist upload -r local")
+          // retrieve version from setup.py file
           version = sh(
             script: "python setup.py --version",
             returnStdout: true
           ).trim()
-          echo $version
+          // tag the release in Git
+          sh("git tag -a v${version} -m 'version ${version}'")
+          sh("git push origin v${version}")
         }
 
     }
