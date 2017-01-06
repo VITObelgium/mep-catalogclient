@@ -15,6 +15,7 @@ node("master"){
           python setup.py install
           pip install nose2
           venv/bin/nose2 --plugin nose2.plugins.junitxml --junit-xml
+          junit nose2-junit.xml
         '''
     }
 
