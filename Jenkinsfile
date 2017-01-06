@@ -1,8 +1,10 @@
 #!/usr/bin/env groovy
 
-node ('master') {
+def deployable_branches = ["master"]
 
-    stage('build'){
+node("master"){
+
+    stage("build-test"){
         checkout scm
         sh '''
           source /opt/rh/python27/enable
@@ -10,7 +12,16 @@ node ('master') {
           virtualenv venv
           source venv/bin/activate
           pylint catalogclient -f parseable | tee pylint.out
+          python setup.py install
+          venv/bin/nose2 --plugin nose2.plugins.junitxml --junit-xml
         '''
+    }
+
+    if(deployable_branches.contains(env.BRANCH_NAME)) {
+
+        stage("deploy"){
+        }
+
     }
 
 }
