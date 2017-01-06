@@ -23,7 +23,9 @@ node("master"){
 
         stage("deploy"){
           input 'Deploy to PyPi?'
-          python setup.py sdist upload -r local
+          sh '''
+            python setup.py sdist upload -r local
+          '''
         }
 
     }
