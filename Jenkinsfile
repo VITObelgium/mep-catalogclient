@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-node ('jenkinsslave1.vgt.vito.be') {
+node ('realjenkins.intern.vgt.vito.be') {
 
     stage('build'){
         checkout scm
