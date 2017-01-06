@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-node ('realjenkins.intern.vgt.vito.be') {
+node ('master') {
 
     stage('build'){
         checkout scm
