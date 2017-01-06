@@ -11,9 +11,9 @@ node("master"){
           export X_SCLS="`scl enable python27 'echo $X_SCLS'`"
           virtualenv venv
           source venv/bin/activate
+          pip install nose2 requests
           pylint catalogclient -f parseable | tee pylint.out
           python setup.py install
-          pip install nose2 requests
           venv/bin/nose2 --plugin nose2.plugins.junitxml --junit-xml
         '''
         // publish unit test results
