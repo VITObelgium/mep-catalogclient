@@ -16,7 +16,7 @@ node("master"){
           pip install nose2
           venv/bin/nose2 --plugin nose2.plugins.junitxml --junit-xml
         '''
-        junit nose2-junit.xml
+        junit '**/nose2-junit.xml'
     }
 
     if(deployable_branches.contains(env.BRANCH_NAME)) {
