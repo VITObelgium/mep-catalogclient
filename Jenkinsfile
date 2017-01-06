@@ -13,6 +13,7 @@ node("master"){
           source venv/bin/activate
           pylint catalogclient -f parseable | tee pylint.out
           python setup.py install
+          pip install nose2
           venv/bin/nose2 --plugin nose2.plugins.junitxml --junit-xml
         '''
     }
