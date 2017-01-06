@@ -17,7 +17,7 @@ node("master"){
           venv/bin/nose2 --plugin nose2.plugins.junitxml --junit-xml
         '''
         junit '**/nose2-junit.xml'
-        step([$class: 'WarningsPublisher', includePattern: 'pylint.out'])
+        step([$class: 'WarningsPublisher', includePattern: '**/pylint.out'])
     }
 
     if(deployable_branches.contains(env.BRANCH_NAME)) {
