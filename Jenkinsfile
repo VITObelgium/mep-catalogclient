@@ -29,6 +29,11 @@ node("master"){
           sh '''
             python setup.py sdist upload -r local
           '''
+          version = sh(
+            script: "python setup.py --version",
+            returnStdout: true
+          ).trim()
+          echo $version
         }
 
     }
