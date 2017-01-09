@@ -6,12 +6,6 @@ node("master"){
 
     stage("build-test"){
         checkout scm
-        echo scm.getRepositories().get(0).getName()
-        echo scm.getRepositories().get(0).getURIs().get(0).getHost()
-        echo scm.getRepositories().get(0).getURIs().get(0).getUser()
-        echo scm.getRepositories().get(0).getURIs().get(0).getPass()
-        echo scm.getRepositories().get(0).getURIs().get(0).getScheme()
-        echo scm.getRepositories().get(0).getURIs().get(0).getPath()
 
         sh '''
           source /opt/rh/python27/enable
@@ -41,14 +35,8 @@ node("master"){
             returnStdout: true
           ).trim()
           // tag the release in Git
-          withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                          credentialsId: credentialsId,
-                          usernameVariable: 'GIT_USERNAME',
-                          passwordVariable: 'GIT_PASSWORD']]) {
-            sh("git tag -a v${version} -m 'version ${version}'")
-            sh("git push origin v${version}")
-
-          }
+          sh("git tag -a v${version} -m 'version ${version}'")
+          sh("git push origin v${version}")
         }
 
     }
