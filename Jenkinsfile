@@ -6,6 +6,7 @@ node("master"){
 
     stage("build-test"){
         checkout scm
+        echo scm
         sh '''
           source /opt/rh/python27/enable
           export X_SCLS="`scl enable python27 'echo $X_SCLS'`"
@@ -34,8 +35,14 @@ node("master"){
             returnStdout: true
           ).trim()
           // tag the release in Git
-          sh("git tag -a v${version} -m 'version ${version}'")
-          sh("git push origin v${version}")
+          withCredentials([[$class: 'UsernamePasswordMultiBinding',
+                          credentialsId: credentialsId,
+                          usernameVariable: 'GIT_USERNAME',
+                          passwordVariable: 'GIT_PASSWORD']]) {
+            sh("git tag -a v${version} -m 'version ${version}'")
+            sh("git push origin v${version}")
+
+          }
         }
 
     }
