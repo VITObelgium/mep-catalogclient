@@ -35,8 +35,11 @@ node("master"){
             returnStdout: true
           ).trim()
           // tag the release in Git
-          sh("git tag -a v${version} -m 'version ${version}'")
-          sh("git push origin v${version}")
+          // make sure ssh agent is running
+          sshagent(['3b18ac8a-ef5a-44d7-81d0-71e51b9d0d5b']) {
+            sh("git tag -a v${version} -m 'version ${version}'")
+            sh("git push origin v${version}")
+          }
         }
 
     }
