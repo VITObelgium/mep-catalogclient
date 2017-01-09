@@ -6,7 +6,13 @@ node("master"){
 
     stage("build-test"){
         checkout scm
-        echo scm.getRepositories().get(0).toString()
+        echo scm.getRepositories().get(0).getName()
+        echo scm.getRepositories().get(0).getURIs().get(0).getHost()
+        echo scm.getRepositories().get(0).getURIs().get(0).getUser()
+        echo scm.getRepositories().get(0).getURIs().get(0).getPass()
+        echo scm.getRepositories().get(0).getURIs().get(0).getScheme()
+        echo scm.getRepositories().get(0).getURIs().get(0).getPath()
+
         sh '''
           source /opt/rh/python27/enable
           export X_SCLS="`scl enable python27 'echo $X_SCLS'`"
