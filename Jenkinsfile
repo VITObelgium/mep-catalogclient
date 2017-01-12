@@ -28,7 +28,7 @@ node("master"){
         stage("deploy"){
           // ask confirmation before deployment to PyPi
           input 'Deploy to PyPi?'
-          sh("python setup.py sdist upload -r local")
+          sh("python setup.py sdist upload -r public")
           // retrieve version from setup.py file
           version = sh(
             script: "python setup.py --version",
