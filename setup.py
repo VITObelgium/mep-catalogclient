@@ -3,7 +3,7 @@ from setuptools import setup
 test_requirements = ['requests','mock']
 
 setup(name='catalogclient',
-      version='0.5',
+      version='0.6',
       author='Dirk Daems',
       author_email='dirk.daems@vito.be',
       description='Catalog client for the internal PROBA-V MEP and Copernicus Global Land catalogs',
