@@ -8,7 +8,7 @@ except ImportError:
 import datetime
 import requests
 
-CATALOG_BASE_URL = 'http://pdfcatalog.vgt.vito.be:8080/develop/catalog/v2/'
+CATALOG_BASE_URL = 'https://proba-v-mep.esa.int/api/catalog/v2/'
 
 
 class EOProduct(object):
