@@ -4,10 +4,10 @@
    contain the root `toctree` directive.
 
 mep_catalogclient: client to search the PROBA-V MEP catalog
-=======================================================
+===========================================================
 
 This Python client uses the REST service of the `PROBA-V MEP <https://proba-v-mep.esa.int/>`_ catalog,
-making it easier to search PROBA-V EO data products.
+making it easier to search `PROBA-V <http://proba-v.vgt.vito.be/>`_ EO data products.
 
 Installation
 ============
