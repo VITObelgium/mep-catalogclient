@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-catalogclient: client to search the PROBA-V MEP catalog
+mep_catalogclient: client to search the PROBA-V MEP catalog
 =======================================================
 
 This Python client uses the REST service of the `PROBA-V MEP <https://proba-v-mep.esa.int/>`_ catalog,

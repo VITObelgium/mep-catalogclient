@@ -1,9 +1,15 @@
+import re
+
 from setuptools import setup
 
 test_requirements = ['requests','mock']
 
+with open('catalogclient/__init__.py', 'r') as fd:
+    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
+                        fd.read(), re.MULTILINE).group(1)
+
 setup(name='catalogclient',
-      version='0.6',
+      version=version,
       author='Dirk Daems',
       author_email='dirk.daems@vito.be',
       description='Catalog client for the internal PROBA-V MEP and Copernicus Global Land catalogs',
