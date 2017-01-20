@@ -3,3 +3,6 @@ build/
 dist/
 catalogclient.egg-info/
 **/*.pyc
+docs/_build
+docs/_static
+docs/_templates
