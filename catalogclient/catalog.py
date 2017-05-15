@@ -7,6 +7,7 @@ except ImportError:
     import urlparse
 import datetime
 import requests
+from shapely.geometry import shape
 
 CATALOG_BASE_URL = 'https://proba-v-mep.esa.int/api/catalog/v2/'
 
@@ -14,12 +15,13 @@ CATALOG_BASE_URL = 'https://proba-v-mep.esa.int/api/catalog/v2/'
 class EOProduct(object):
     """This class represents an EO product returned from a catalog search."""
 
-    def __init__(self, producttype=None, tilex=0, tiley=0, files=None):
+    def __init__(self, producttype=None, tilex=0, tiley=0, files=None, geometry=None):
 
         self.producttype = producttype
         self.tilex = tilex
         self.tiley = tiley
         self.files = files
+        self.geometry = geometry
 
     def __str__(self):
 
@@ -56,7 +58,8 @@ class Catalog(object):
                                 a['tileX'],
                                 a['tileY'],
                                 map(lambda b: EOProductFile(b['filename'],
-                                                            b['bands']), a['files'])),
+                                                            b['bands']), a['files']),
+                                shape(a['geometry']) if 'geometry' in a else None),
             json)
 
     @staticmethod

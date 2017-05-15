@@ -94,6 +94,15 @@ class TestCatalog(TestCase):
                                     enddate=datetime.date(2016, 1, 2))
         self.assertEquals(len(products), 2)
 
+        self.assertEquals(products[0].geometry.geom_type, 'Polygon')
+        self.assertEquals(products[0].geometry.exterior.coords[0], (0.0, 65.0))
+        self.assertEquals(products[0].geometry.exterior.coords[1], (0.0, 55.0))
+        self.assertEquals(products[0].geometry.exterior.coords[2], (10.0, 55.0))
+        self.assertEquals(products[0].geometry.exterior.coords[3], (10.0, 65.0))
+        self.assertEquals(products[0].geometry.exterior.coords[4], (0.0, 65.0))
+
+        self.assertIsNone(products[1].geometry)
+
     @mock.patch('requests.get', side_effect=times_response)
     def test_get_times(self, mock_get):
         """Unit test for retrieval of times for a producttype."""
