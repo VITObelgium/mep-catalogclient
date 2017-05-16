@@ -2,7 +2,7 @@
 
 def deployable_branches = ["master"]
 
-node("master"){
+node("jenkinsslave1.vgt.vito.be"){
 
     stage("build-test"){
         checkout scm
