@@ -5,7 +5,7 @@ try:
     from urllib.parse import urlparse
 except ImportError:
     import urlparse
-import datetime
+from datetime import datetime as dt
 import requests
 from shapely.geometry import shape
 
@@ -15,17 +15,20 @@ CATALOG_BASE_URL = 'https://proba-v-mep.esa.int/api/catalog/v2/'
 class EOProduct(object):
     """This class represents an EO product returned from a catalog search."""
 
-    def __init__(self, producttype=None, tilex=0, tiley=0, files=None, geometry=None):
+    def __init__(self, producttype=None, tilex=0, tiley=0, files=None, geometry=None,
+                 timestamp=None):
 
         self.producttype = producttype
         self.tilex = tilex
         self.tiley = tiley
         self.files = files
         self.geometry = geometry
+        self.timestamp = timestamp
 
     def __str__(self):
 
-        return "{0}_{1}_{2}".format(self.producttype, self.tilex, self.tiley)
+        return "{0}_{1}_{2}_{3}".format(self.producttype, self.tilex, self.tiley,
+                                        self.timestamp)
 
 
 class EOProductFile(object):
@@ -59,7 +62,9 @@ class Catalog(object):
                                 a['tileY'],
                                 map(lambda b: EOProductFile(b['filename'],
                                                             b['bands']), a['files']),
-                                shape(a['geometry']) if 'geometry' in a else None),
+                                shape(a['geometry']) if 'geometry' in a else None,
+                                dt.strptime(a['timestamp'],
+                                            '%Y-%m-%dT%H:%M:%SZ') if 'timestamp' in a else None),
             json)
 
     @staticmethod
@@ -67,7 +72,7 @@ class Catalog(object):
         """Builds datetime objects from a dict."""
 
         return map(
-            lambda a: datetime.datetime.strptime(a, '%Y-%m-%dT%H:%M:%SZ'), json)
+            lambda a: dt.strptime(a, '%Y-%m-%dT%H:%M:%SZ'), json)
 
 
     def get_producttypes(self):
