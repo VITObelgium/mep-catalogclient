@@ -21,7 +21,8 @@ import os
 import sys
 from mock import Mock as MagicMock
 
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('../'))
 
 # mock shapely as it needs C libraries not available on readthedocs.io
 class Mock(MagicMock):
