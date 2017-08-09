@@ -29,7 +29,8 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
             return MagicMock()
 
-MOCK_MODULES = ['shapely']
+# https://stackoverflow.com/questions/32579380/mock-with-submodules-for-readthedocs
+MOCK_MODULES = ['shapely', 'shapely.geometry', 'shapely.geometry.shape']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 import catalogclient
