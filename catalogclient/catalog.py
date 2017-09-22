@@ -2,7 +2,7 @@
  and Copernicus Global Land catalogs"""
 
 try:
-    from urllib.parse import urlparse
+    from urllib.parse import urljoin
 except ImportError:
     import urlparse
 from datetime import datetime as dt
@@ -56,7 +56,7 @@ class Catalog(object):
     def _build_products(json):
         """Builds EOProduct objects from a dict."""
 
-        return map(
+        return list(map(
             lambda a: EOProduct(a['productType'],
                                 a['tileX'],
                                 a['tileY'],
@@ -65,14 +65,14 @@ class Catalog(object):
                                 shape(a['geometry']) if 'geometry' in a else None,
                                 dt.strptime(a['timestamp'],
                                             '%Y-%m-%dT%H:%M:%SZ') if 'timestamp' in a else None),
-            json)
+            json))
 
     @staticmethod
     def _build_times(json):
         """Builds datetime objects from a dict."""
 
-        return map(
-            lambda a: dt.strptime(a, '%Y-%m-%dT%H:%M:%SZ'), json)
+        return list(map(
+            lambda a: dt.strptime(a, '%Y-%m-%dT%H:%M:%SZ'), json))
 
 
     def get_producttypes(self):
@@ -96,7 +96,7 @@ class Catalog(object):
         if fileformat is None:
             raise ValueError("fileformat is mandatory")
 
-        url = urlparse.urljoin(self.baseurl, producttype)
+        url = urljoin(self.baseurl, producttype)
 
         params = {
             'format': str(fileformat),
@@ -131,7 +131,7 @@ class Catalog(object):
         if fileformat is None:
             raise ValueError("fileformat is mandatory")
 
-        url = urlparse.urljoin(self.baseurl, producttype)
+        url = urljoin(self.baseurl, producttype)
 
         params = {
             'format': str(fileformat),
@@ -159,7 +159,7 @@ class Catalog(object):
         if producttype is None:
             raise ValueError("producttype is mandatory")
 
-        url = urlparse.urljoin(self.baseurl, producttype + '/times')
+        url = urljoin(self.baseurl, producttype + '/times')
 
         response = requests.get(url)
         if response.status_code == requests.codes.ok:

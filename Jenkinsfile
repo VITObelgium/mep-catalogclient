@@ -17,6 +17,15 @@ node("jenkinsslave1.vgt.vito.be"){
           python setup.py install
           venv/bin/nose2 --plugin nose2.plugins.junitxml --junit-xml
         '''
+        sh '''
+          source /opt/rh/rh-python35/enable
+          source /etc/profile.d/pyspark.sh          
+          virtualenv venv35
+          source venv35/bin/activate
+          pip install nose2 requests          
+          python setup.py install
+          venv35/bin/nose2 --plugin nose2.plugins.junitxml --junit-xml
+        '''
         // publish unit test results
         junit '**/nose2-junit.xml'
         // publish pylint warnings
