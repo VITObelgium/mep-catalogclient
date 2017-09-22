@@ -19,7 +19,20 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+from mock import Mock as MagicMock
+
+sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('../'))
+
+# mock shapely as it needs C libraries not available on readthedocs.io
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+            return MagicMock()
+
+# https://stackoverflow.com/questions/32579380/mock-with-submodules-for-readthedocs
+MOCK_MODULES = ['shapely', 'shapely.geometry', 'shapely.geometry.shape']
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 import catalogclient
 
