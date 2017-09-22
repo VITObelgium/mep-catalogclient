@@ -4,7 +4,7 @@
 try:
     from urllib.parse import urljoin
 except ImportError:
-    import urlparse
+    from urlparse import urljoin
 from datetime import datetime as dt
 import requests
 from shapely.geometry import shape
