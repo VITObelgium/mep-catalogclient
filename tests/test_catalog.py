@@ -59,7 +59,7 @@ class TestCatalog(TestCase):
     def test_geotiff_unmarshalling(self): # pylint: disable=W0212
         """Tests unmarshalling of GeoTIFF products."""
 
-        with open('../testresources/probav_geotiff.json', 'r') as json_input:
+        with open('testresources/probav_geotiff.json', 'r') as json_input:
             dct = json.loads(json_input.read())
             products = catalog.Catalog._build_products(dct)
             self.assertEqual(len(products), 2)
