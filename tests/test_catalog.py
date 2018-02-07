@@ -59,13 +59,37 @@ class TestCatalog(TestCase):
     def test_geotiff_unmarshalling(self): # pylint: disable=W0212
         """Tests unmarshalling of GeoTIFF products."""
 
-        with open('testresources/probav_geotiff.json', 'r') as json_input:
+        with open('../testresources/probav_geotiff.json', 'r') as json_input:
             dct = json.loads(json_input.read())
             products = catalog.Catalog._build_products(dct)
             self.assertEqual(len(products), 2)
             self.assertEqual(products[1].producttype, 'PROBAV_L3_S10_TOC_333M')
             self.assertEqual(products[1].tilex, 0)
             self.assertEqual(products[1].tiley, 1)
+            self.assertEqual(products[1].files[0].filename, "file:/data/MTDA/TIFFDERIVED/PROBAV_L3_S10_TOC_333M/20160101/PROBAV_S10_TOC_20160101_333M_V001/PROBAV_S10_TOC_X00Y01_20160101_333M_V001_SM.tif")
+            self.assertEqual(products[1].bands(), ['PROBAV:SM',
+                                                   'PROBAV:NIR/TOC',
+                                                   'PROBAV:SWIR/TOC',
+                                                   'PROBAV:RED/TOC',
+                                                   'PROBAV:BLUE/TOC',
+                                                   'PROBAV:TIME',
+                                                   'PROBAV:NDVI',
+                                                   'PROBAV:SAA',
+                                                   'PROBAV:VNIR/VAA',
+                                                   'PROBAV:SZA',
+                                                   'PROBAV:SWIR/VAA',
+                                                   'PROBAV:SWIR/VZA',
+                                                   'PROBAV:VNIR/VZA'])
+
+            self.assertEqual(products[1].file("PROBAV:SZA"), "file:/data/MTDA/TIFFDERIVED/PROBAV_L3_S10_TOC_333M/20160101/PROBAV_S10_TOC_20160101_333M_V001/PROBAV_S10_TOC_X00Y01_20160101_333M_V001_GEOMETRY.tif")
+            try:
+                products[1].file("blabla")
+                self.fail("Method should have thrown an exception.")
+            except RuntimeError as e:
+                pass
+
+
+
 
     def test_get_product_parameters(self):
         """Tests parameter checks for the get_product method."""

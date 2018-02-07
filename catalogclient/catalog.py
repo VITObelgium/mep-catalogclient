@@ -23,7 +23,37 @@ class EOProduct(object):
         self.tiley = tiley
         self.files = files
         self.geometry = geometry
-        self.timestamp = timestamp
+        self._timestamp = timestamp
+
+    @property
+    def timestamp(self):
+        """
+        The timestamp corresponding to this EO Product
+        :return: A datetime object
+        """
+        return self._timestamp
+
+    def bands(self):
+        """
+        Retrieves all available band names in this product.
+        :return: A list of bands.
+        """
+        bands = []
+        for file in self.files:
+            bands.extend(file.bands)
+        return bands
+
+    def file(self,band):
+        """
+        Returns the filename for a given products band.
+
+        :param band: A valid band name.
+        :return: A filename, as a string.
+        """
+        for file in self.files:
+            if band in file.bands:
+                return file.filename
+        raise RuntimeError("Band not found in this product: " + band + ", available bands: " +str(self.bands()))
 
     def __str__(self):
 
@@ -60,8 +90,8 @@ class Catalog(object):
             lambda a: EOProduct(a['productType'],
                                 a['tileX'],
                                 a['tileY'],
-                                map(lambda b: EOProductFile(b['filename'],
-                                                            b['bands']), a['files']),
+                                list(map(lambda b: EOProductFile(b['filename'],
+                                                            b['bands']), a['files'])),
                                 shape(a['geometry']) if 'geometry' in a else None,
                                 dt.strptime(a['timestamp'],
                                             '%Y-%m-%dT%H:%M:%SZ') if 'timestamp' in a else None),
