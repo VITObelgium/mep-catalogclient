@@ -6,6 +6,8 @@ try:
 except ImportError:
     from urlparse import urljoin
 from datetime import datetime as dt
+from dateutil import parser
+import pytz
 import requests
 from shapely.geometry import shape
 
@@ -133,9 +135,9 @@ class Catalog(object):
         }
 
         if startdate != None:
-            params['startDate'] = startdate.strftime('%Y%m%d')
+            params['startDate'] = Catalog.convert_date(startdate).strftime('%Y%m%d')
         if enddate != None:
-            params['endDate'] = enddate.strftime('%Y%m%d')
+            params['endDate'] = Catalog.convert_date(enddate).strftime('%Y%m%d')
         if min_lon != None:
             params['minLon'] = min_lon
         if max_lon != None:
@@ -182,6 +184,12 @@ class Catalog(object):
             return self._build_products(response.json())
         else:
             response.raise_for_status()
+
+    @classmethod
+    def convert_date(cls, date):
+        if type(date) is str:
+            return pytz.utc.localize(parser.parse(date))
+        return date
 
     def get_times(self, producttype):
         """Returns a list of dates at which a product is available in the catalog."""

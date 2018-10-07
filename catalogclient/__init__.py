@@ -4,5 +4,5 @@ catalog, making it easier to search `PROBA-V<http://proba-v.vgt.vito.be/>`_ EO d
 """
 
 __title__ = 'mep_catalogclient'
-__version__ = '1.0'
+__version__ = '1.1'
 __author__ = 'Dirk Daems'
