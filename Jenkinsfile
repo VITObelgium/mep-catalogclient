@@ -12,7 +12,9 @@ node("jenkinsslave1.vgt.vito.be"){
           export X_SCLS="`scl enable python27 'echo $X_SCLS'`"
           virtualenv venv
           source venv/bin/activate
-          pip install nose2 requests pylint
+          pip install -I --upgrade pip setuptools wheel==0.30.0
+          pip install --upgrade pytest pylint
+          pip install nose2 requests
           venv/bin/pylint catalogclient -f parseable | tee pylint.out
           python setup.py install
           venv/bin/nose2 --plugin nose2.plugins.junitxml --junit-xml
@@ -22,6 +24,7 @@ node("jenkinsslave1.vgt.vito.be"){
           source /etc/profile.d/pyspark.sh          
           virtualenv venv35
           source venv35/bin/activate
+          pip install -I --upgrade pip setuptools wheel==0.30.0
           pip install nose2 requests          
           python setup.py install
           venv35/bin/nose2 --plugin nose2.plugins.junitxml --junit-xml
