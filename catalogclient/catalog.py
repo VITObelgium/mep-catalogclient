@@ -6,8 +6,8 @@ try:
 except ImportError:
     from urlparse import urljoin
 from datetime import datetime as dt
+from datetime import timezone
 from dateutil import parser
-import pytz
 import requests
 from shapely.geometry import shape
 
@@ -188,7 +188,7 @@ class Catalog(object):
     @classmethod
     def convert_date(cls, date):
         if type(date) is str:
-            return pytz.utc.localize(parser.parse(date))
+            return parser.parse(date).replace(tzinfo=timezone.utc)
         return date
 
     def get_times(self, producttype):
