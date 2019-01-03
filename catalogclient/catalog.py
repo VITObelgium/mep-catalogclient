@@ -5,8 +5,21 @@ try:
     from urllib.parse import urljoin
 except ImportError:
     from urlparse import urljoin
-from datetime import datetime as dt
-from datetime import timezone
+from datetime import datetime as dt, tzinfo, timedelta
+
+try:
+    from datetime import timezone
+    utc = timezone.utc
+except ImportError:
+    #Hi there python2 user
+    class UTC(tzinfo):
+        def utcoffset(self, dt):
+            return timedelta(0)
+        def tzname(self, dt):
+            return "UTC"
+        def dst(self, dt):
+            return timedelta(0)
+    utc = UTC()
 from dateutil import parser
 import requests
 from shapely.geometry import shape
@@ -188,7 +201,7 @@ class Catalog(object):
     @classmethod
     def convert_date(cls, date):
         if type(date) is str:
-            return parser.parse(date).replace(tzinfo=timezone.utc)
+            return parser.parse(date).replace(tzinfo=utc)
         return date
 
     def get_times(self, producttype):
