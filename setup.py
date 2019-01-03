@@ -17,4 +17,4 @@ setup(name='catalogclient',
       packages=['catalogclient'],
       test_suite = 'tests',
       tests_require=test_requirements,
-      install_requires=['requests','shapely==1.5.17']+test_requirements)
+      install_requires=['requests','shapely==1.5.17','python-dateutil']+test_requirements)
