@@ -9,6 +9,7 @@
 
 pythonPipeline {
   package_name = 'catalogclient'
+  venv_rpm_deps = 'geos-devel'
   wipeout_workspace = true
   wheel_repo = 'python-packages-public'
   python_version = ['2.7','3.5','3.6']
