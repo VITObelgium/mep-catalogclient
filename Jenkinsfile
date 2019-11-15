@@ -13,4 +13,5 @@ pythonPipeline {
   wipeout_workspace = true
   wheel_repo = 'python-packages-public'
   python_version = ['2.7','3.5','3.6']
+  pre_test_script = 'pre_test_script.sh'
 }
