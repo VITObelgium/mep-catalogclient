@@ -2,7 +2,7 @@ import re
 
 from setuptools import setup
 
-test_requirements = ['pytest','requests','mock','pytest-runner']
+test_requirements = ['pytest','requests','mock']
 
 with open('catalogclient/__init__.py', 'r') as fd:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
@@ -17,4 +17,5 @@ setup(name='catalogclient',
       packages=['catalogclient'],
       test_suite = 'tests',
       tests_require=test_requirements,
+      setup_requires=['pytest-runner'],
       install_requires=['requests','shapely<=1.5.17','python-dateutil'])
