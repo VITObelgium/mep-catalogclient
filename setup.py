@@ -18,4 +18,4 @@ setup(name='catalogclient',
       test_suite = 'tests',
       tests_require=test_requirements,
       setup_requires=['pytest-runner'],
-      install_requires=['requests','shapely<=1.5.17','python-dateutil'])
+      install_requires=['requests','shapely>=1.5.17','python-dateutil'])
